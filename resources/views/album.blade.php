@@ -23,12 +23,12 @@
             {{csrf_field()}}
             <div class="form-group mb-3">
                 <label for="title">Nama Album</label>
-                <input type="text" name="title" id="title" class="form-control" placeholder="My Holiday">
+                <input type="text" name="namaalbum" id="namaalbum" class="form-control" placeholder="My Holiday">
             </div>
 
             <div class="form-group mb-3">
                 <label for="deskription">Deskripsi</label>
-                <textarea class="form-control" name="deskription" id="deskription" class="form-control" placeholder="Today I'm enjoy with... ">
+                <textarea class="form-control" name="deskripsi" id="deskripsi" class="form-control" placeholder="Today I'm enjoy with... ">
                 </textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Simpan</button>

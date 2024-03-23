@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('likeable_type');
             $table->timestamps();
 
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('posts_id')->references('id')->on('posts')->onDelete('cascade');
+            // $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreign('posts_id')->references('id')->on('posts')->onDelete('cascade');
 
         });
     }
