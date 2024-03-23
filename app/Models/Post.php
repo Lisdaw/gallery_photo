@@ -12,7 +12,7 @@ use App\Http\Controllers\PostsController;
 
 class Post extends Model
 {
-    use LikeTrait;
+    // use LikeTrait;
     Public function Album(){
         return $this->hasOne(Album::class);
     }
@@ -22,14 +22,10 @@ class Post extends Model
 
     
 
-    // public function likes(): HasMany
-    // {
-    //     return $this->hasMany(Post::class);
-    // }
-
-    // public function likedBy(User $user, Post $post){
-    //     return $this->likes()->where('users_id', $user->id)->where('posts_id', $post->id)->where('likeable',1)->exists();
-    // }
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
 
     // public function unlikedBy(User $user,Post $post){
     //     return $this->likes()->where('users_id', $user->id)->where('posts_id', $post->id)->where('likeable',0)->exists();

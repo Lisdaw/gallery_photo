@@ -29,31 +29,34 @@ Auth::routes();
 // Route::get('/home', [App\Http\Controllers\FotoController::class, 'index'])->name('home');
 // Route::get('/foto', [App\Http\Controllers\FotoController::class, 'storeGaleri'])->name('foto.store');
 
-Route::group(['middleware'=>['web','auth']], function(){
+Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::get('/home', function () {
-        return view('home',[
-            'posts'=>App\Models\Post::all(),
-            'albums'=>App\Models\Album::all()
+        // dd([
+        //     'posts' => App\Models\Post::with('likes')->withCount('likes')->get()->toArray(),
+        //     'albums' => App\Models\Album::all()
+        // ]);
+        return view('home', [
+            'posts' =>App\Models\Post::with('likes')->withCount('likes')->get(),
+            'albums' => App\Models\Album::all()
         ]);
     });
-
 });
 
 
 
 
 Route::get('/image', function () {
-    return view('image',['posts'=>App\Models\Post::all()]);
+    return view('image', ['posts' => App\Models\Post::all()]);
 });
 
 Route::get('/album', function () {
-    return view('album',[
-        'posts'=>App\Models\Post::all(),
-        'album'=>App\Models\Album::all()
+    return view('album', [
+        'posts' => App\Models\Post::withCount('likes')->with(['likes' => fn ($query) => $query->where('user_id', auth()->user()->id)])->get(),
+        'album' => App\Models\Album::all()
     ]);
 });
-Route::get('/dowloads/{id}', [PostsController::class,'download'] );
+Route::get('/dowloads/{id}', [PostsController::class, 'download']);
 
 
 // Route::get('/albums', 'AlbumController@index');
@@ -65,4 +68,3 @@ Route::post('/posts/like', [App\Http\Controllers\LikeController::class, 'postlik
 // Route::post('/post{image}/unlike',[PostsController::class,'unlike'])->name('image.unlike');
 // // Route::post('/posts/{postId}/like', [PostsController::class, 'like'])->name('posts.like');
 // Route::post('/posts/{imageId}/unlike', [PostsController::class, 'unlike'])->name('posts.unlike');
-

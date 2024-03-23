@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('users_id');
-            $table->unsignedBigInteger('posts_id');
-            $table->integer('likeable_id');
-            $table->string('likeable_type');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('post_id');
+            // $table->integer('likeable_id')->nullable();
+            // $table->string('likeable_type')->nullable();
             $table->timestamps();
 
             // $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');

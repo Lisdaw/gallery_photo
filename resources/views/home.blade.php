@@ -70,7 +70,11 @@
                  <div class="post-footer pt-0 align-item-center">
                     <div class="button-footer ">
                         <span class="btn btn-default"><i class="fa fa-comment"></i><span class="btn btn-default">2</span></span>
-                        <span class="btn btn-default btn-xs {{$post->YouLiked()?"liked":""}}" onclick="postlike('{{$post->id}}',this)"><i class="fa fa-thumbs-up"><span class="btn btn-default btn-xs" id="{{$post->id}}-count" >{{$post->likes()->count()}}</span></i></span>
+                        <span class="btn btn-default btn-xs {{$post->likes->contains(fn ($val) => $val->user_id === auth()->user()->id) ?"liked":""}}" onclick="postlike('{{$post->id}}',this)">
+                            <i class="fa fa-thumbs-up">
+                                <span class="btn btn-default btn-xs" id="{{$post->id}}-count" >{{$post->likes_count}}</span>
+                            </i>
+                        </span>
                         <span class="btn btn-default"><i class="fa-solid fa-download"></i></span>
                     </div>
                     </div>
@@ -107,12 +111,13 @@
 @section('js')
 <script type="text/javascript">
    function postlike(postId, elem) {
-        var csrfToken = '{{csrf_token()}}';
-        var likeCount = parseInt($('#' + postId + "-count").text());
+        console.log("Liking post "+postId)
+        // var csrfToken = '{{csrf_token()}}';
+        // var likeCount = parseInt($('#' + postId + "-count").text());
 
-        $.post('{{route('postlike')}}', { postId: postId, _token: csrfToken }, function(data) {
-            console.log(data);
-        });
+        // $.post('{{route('postlike')}}', { postId: postId, _token: csrfToken }, function(data) {
+        //     console.log(data);
+        // });
     }
 </script>
 @endsection
