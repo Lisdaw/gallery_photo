@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use Illuminate\Http\Request;
 use illuminate\Support\Facades\DB;
+
 class AlbumController extends Controller
 {
     /**
@@ -14,8 +15,8 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        $album=DB::table('albums')->get();
-        return view('album',['albums'=>$album]);
+        $album = DB::table('albums')->get();
+        return view('album', ['albums' => $album]);
     }
 
     /**
@@ -25,7 +26,6 @@ class AlbumController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -36,16 +36,17 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
-            'namaalbum'=>'required',
-            'deskripsi'=>'required'
+            'namaalbum' => 'required',
+            'deskripsi' => 'required'
         ]);
-        $album=New Album;
-        $album->namaalbum   =$request->namaalbum;
-        $album->deskripsi   =$request->deskripsi;
+        $album = new Album;
+        $album->namaalbum   = $request->namaalbum;
+        $album->deskripsi   = $request->deskripsi;
         $album->user_id     = auth()->id();
         $album->save();
+
+        return back()->withMessage('Create Album Success');
     }
     public function add(Request $request)
     {

@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Post;
 use App\Models\Like;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
@@ -13,19 +14,30 @@ class LikeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function postLike(Request $request){
-        $postId=$request->Input('postId');
-        $post=Post::find($postId);
+    public function postLike(string $postId)
+    {
+        $post = Post::with('likes')->find($postId);
 
-        if(!$post->YouLiked()){
-            $post->YouLikeIt();
-            return response()->json(['status'=>'success', 'message'=>'liked']);
-        }
-        else{
-            $post->YouUnlike();
-            return response()->json(['status'=>'success','message'=>'unliked']);
+        if ($post->likedByUser(Auth::user())) {
+            Like::where('user_id', '=', Auth::user()->id)->delete();
+
+            return response()->json([
+                'liked' => false,
+                'count' => Like::where('post_id', $post->id)->count(),
+            ]);
+        } else {
+            Like::create([
+                'user_id' => Auth::user()->id,
+                'post_id' => $post->id
+            ]);
+
+            return response()->json([
+                'liked' => true,
+                'count' => Like::where('post_id', $post->id)->count(),
+            ]);
         }
     }
+
     public function index()
     {
         //
