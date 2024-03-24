@@ -20,11 +20,14 @@ class Post extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    
-
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function likedByUser(User $user): bool
+    {
+        return $this->likes->contains(fn ($val) => $val->user_id === $user->id);
     }
 
     // public function unlikedBy(User $user,Post $post){

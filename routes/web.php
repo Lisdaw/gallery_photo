@@ -62,7 +62,7 @@ Route::get('/dowloads/{id}', [PostsController::class, 'download']);
 // Route::get('/albums', 'AlbumController@index');
 Route::post('/albums', [App\Http\Controllers\AlbumController::class, 'store'])->name('album.store');
 Route::post('/posts', [App\Http\Controllers\PostsController::class, 'store'])->name('posts.store');
-Route::post('/posts/like', [App\Http\Controllers\LikeController::class, 'postlike'])->name('postlike');
+Route::get('/posts/{postId}/like', [App\Http\Controllers\LikeController::class, 'postlike'])->name('postlike');
 
 // Route::post('/post{image}/like',[PostsController::class,'like'])->name('image.like');
 // Route::post('/post{image}/unlike',[PostsController::class,'unlike'])->name('image.unlike');
