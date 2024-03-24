@@ -75,7 +75,7 @@
                                 <span class="btn btn-default btn-xs" id="{{$post->id}}-count" >{{$post->likes_count}}</span>
                             </i>
                         </span>
-                        <span class="btn btn-default"><i class="fa-solid fa-download"></i></span>
+                        <a href="{{asset('images/'.$post->image)}}" class="btn btn-default" download="{{$post->image}}"><i class="fa-solid fa-download"></i></span>
                     </div>
                     </div>
                 </div>
