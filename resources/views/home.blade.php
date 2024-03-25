@@ -65,10 +65,9 @@
             <div class="col">
                 <div class="card mt-3 border-0 bg-light mb-3" style="width:260px; height:300px;">
                     <div class="card-img-top">
-                        <a href="#{{$post->id}}" data-bs-toggle="modal"><img src="{{asset('images/'.$post->image)}}" alt="" ></a>
-                        
-                    </div>
 
+                        <a href="#{{$post->id}}" data-bs-toggle="modal"><img src="{{asset('images/'.$post->image)}}" alt="" ></a>
+                    </div>
                  <div class="post-footer pt-0 align-item-center">
                     <div class="button-footer ">
                         <span class="btn btn-default"><i class="fa fa-comment"></i><span class="btn btn-default">2</span></span>
@@ -87,7 +86,12 @@
         <div class="modal-dialog ">
                 <div class="row">
                     <div class="col">
-                        <a href="#{{$post->id}}" data-bs-toggle="modal"><img src="{{asset('images/'.$post->image)}}" alt="" ></a>
+                        <h3 class="text-light">{{$post->title}}</h3>
+                        <h5 class="text-light">{{$post->deskription}}</h5>
+                    </div>
+                    <div class="col  ">
+                        <a href="#{{$post->id}}" data-bs-toggle="modal"><img src="{{asset('images/'.$post->image)}}" alt="" style="width:30em; height:30em;"></a>
+                    </div>
 
                     </div>
                 </div>
