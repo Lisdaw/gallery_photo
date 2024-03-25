@@ -36,6 +36,7 @@
                 </div>
             @endif
 
+
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                             <div class="judul">
                                 <h1>Welcome </h1>
@@ -47,7 +48,41 @@
 
                     </div>
 
+<!-- mulai -->
+<div class="container ">
+        <div class="row">
+        @foreach($posts as $post)
+            <div class="col">
+                <div class="card mt-3 border-0 bg-light mb-3" style="width:26px; height:30px;">
+                    <div class="card-img-top">
+                        <a href="#{{$post->id}}" data-bs-toggle="modal"><img src="{{asset('images/'.$post->image)}}" alt="" ></a>
+                    </div>
+                 <div class="post-footer pt-0 align-item-center">
+                    <div class="button-footer ">
+                        <span class="btn btn-default"><i class="fa fa-comment"></i><span class="btn btn-default">2</span></span>
+                        <span class="btn btn-default btn-xs " onclick="postlike('{{$post->id}}',this)"><i class="fa fa-thumbs-up"><span class="btn btn-default btn-xs" id="{{$post->id}}-count" >{{$post->likes()->count()}}</span></i></span>
+                        <span class="btn btn-default"><i class="fa-solid fa-download"></i></span>
+                    </div>
+                    </div>
+                </div>
+            </div>
 
+
+{{--  Modal  --}}
+    <div class="modal fade" id="{{$post->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class=" ">
+                    <div class="show_modal_image"> <a href="#"> <img src="{{asset('images/'.$post->image)}}" alt="" > </a> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+    </div>
+    </div>
+
+<!-- akhir -->
                 </div>
             </div>
         </div>

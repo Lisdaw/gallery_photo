@@ -7,9 +7,12 @@ use App\Http\Requests;
 use Illuminate\Auth\UserInterface;
 use App\Models\Post;
 use App\Models\Album;
+use App\Models\Komentar;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\KomentarController;
+use App\Http\Controllers\Faker;
 use App\Models\Like;
 class PostsController extends Controller
 {
@@ -21,6 +24,7 @@ class PostsController extends Controller
 
             'image'=>'required|image|mimes:jpg,png,jpeg,bmp|max:2000',
         ]);
+        
         $post = New Post;
         $post->user_id    =  auth()->id();
         $post->title      = $request->title;
@@ -41,42 +45,16 @@ class PostsController extends Controller
          return back()->withMessage('Upload Image Success');
     }
 
-    public function download($filename){
-        // $post=Post::findOrfail($id);
-        // $media=$post->getFirstMedia('download');
-        // return $media;
-        // $filepath=public_path('images/filename');
-        $post=Post::all();
+    public function insertData(Request $req, $id)
+    {
+        $faker=Faker::create();
+        $hasil=Post::find($id);
+        $user= New Komentar();
+        $user->komentar= $req->komentar;
+        $user->post_id=$req->id;
+        $user->save();
+        return redirect()->action('PostController@store',['id'=>$id]);
     }
 
-    // public function album(){
-    //     $data['albums']=Album::all();
-    //     return view('home',$data);
-    // }
 
-    // public function homeview(){
-    //     return view('home', [
-    //         'posts'=> Post::all(),
-    //         'data' => Album::all()
-    //     ]);
-    // }
-
-
-    // public function like(Post $post, Request $request){
-    // $like=new Like();
-    // $like->users_id=auth()->id();
-    // $like->posts_id=$post->id();
-    // $like->likeable=1;
-    // $like->save();
-
-    // return redirect()->back();
-
-    // }
-    // public function unlike(Post $post, Request $request){
-    // $like= Like::where('users_id', auth()->id())->where('posts_id', $post->id)->first();
-    // $like->delete();
-
-    // return redirect()->back();
-
-    // }
 }

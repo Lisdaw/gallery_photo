@@ -13,6 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::create('albums', function (Blueprint $table) {
+            $table->id();
+            $table->string('namaalbum');
+            $table->text('deskripsi');
+            $table->unsignedBigInteger('user_id');
+
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
+        });
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
@@ -22,8 +31,8 @@ return new class extends Migration
             $table->string('image');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
         });
     }
 
@@ -35,5 +44,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('posts');
+        Schema::dropIfExists('albums');
     }
 };

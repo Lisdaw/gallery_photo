@@ -62,16 +62,19 @@
       <div class="container w-100%">
         <div class="row">
         @foreach($posts as $post)
-            <div class="col-4">
+            <div class="col">
                 <div class="card mt-3 border-0 bg-light mb-3" style="width:260px; height:300px;">
                     <div class="card-img-top">
+
                         <a href="#{{$post->id}}" data-bs-toggle="modal"><img src="{{asset('images/'.$post->image)}}" alt="" ></a>
                     </div>
                  <div class="post-footer pt-0 align-item-center">
                     <div class="button-footer ">
                         <span class="btn btn-default"><i class="fa fa-comment"></i><span class="btn btn-default">2</span></span>
-                        <span class="btn btn-default btn-xs {{$post->YouLiked()?"liked":""}}" onclick="postlike('{{$post->id}}',this)"><i class="fa fa-thumbs-up"><span class="btn btn-default btn-xs" id="{{$post->id}}-count" >{{$post->likes()->count()}}</span></i></span>
-                        <span class="btn btn-default"><i class="fa-solid fa-download"></i></span>
+                        <button id="post-{{$post->id}}" class="post btn btn-default btn-xs {{$post->likes->contains(fn ($val) => $val->user_id === auth()->user()->id) ?"liked":""}}" onclick="postlike('{{$post->id}}',this)" data-post-id="{{$post->id}}">
+                            <i class="fa fa-thumbs-up"> </i></button>
+                        <span class="btn btn-default btn-xs" id="post-{{$post->id}}-count" >{{$post->likes_count}}</span>
+                        <a href="{{asset('images/'.$post->image)}}" class="btn btn-default" download="{{$post->image}}"><i class="fa-solid fa-download"></i></span>
                     </div>
                     </div>
                 </div>
@@ -80,12 +83,19 @@
 
 {{--  Modal  --}}
     <div class="modal fade" id="{{$post->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class=" ">
-                    <div class="show_modal_image"> <a href="#"> <img src="{{asset('images/'.$post->image)}}" alt="" > </a> </div>
+        <div class="modal-dialog ">
+                <div class="row">
+                    <div class="col">
+                        <h3 class="text-light">{{$post->title}}</h3>
+                        <h5 class="text-light">{{$post->deskription}}</h5>
+                    </div>
+                    <div class="col  ">
+                        <a href="#{{$post->id}}" data-bs-toggle="modal"><img src="{{asset('images/'.$post->image)}}" alt="" style="width:30em; height:30em;"></a>
+                    </div>
+
+                    </div>
                 </div>
-            </div>
+
         </div>
     </div>
     @endforeach
@@ -93,11 +103,7 @@
     </div>
 
 <style>
-    .liked{
-        background-color: #099;
-        background-color: #444;
 
-    }
 </style>
 
 
@@ -107,13 +113,22 @@
 @section('js')
 <script type="text/javascript">
    function postlike(postId, elem) {
-        var csrfToken = '{{csrf_token()}}';
-        var likeCount = parseInt($('#' + postId + "-count").text());
-
-        $.post('{{route('postlike')}}', { postId: postId, _token: csrfToken }, function(data) {
-            console.log(data);
-        });
+        console.log("Liking post "+postId)
+        $.get(`/posts/${postId}/like`).done(function(data) {
+            $(`#post-${postId}-count`).html(data.count);
+            if(data.liked) {
+                $(`#post-${postId}`).addClass('liked');
+            } else {
+                $(`#post-${postId}`).removeClass('liked');
+            }
+        })
     }
+
+    $.ready(function() {
+        $('post').click(function(e) {
+            postlike($(e.target).data('post-id'))
+        })
+    })
 </script>
 @endsection
 {{--  <script>
@@ -158,6 +173,3 @@
             });
     });
 </script>  --}}
-
-
-
